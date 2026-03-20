@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Chess</title>
+    <link rel="stylesheet" href="lib/chessboard.css">
+    <style>
+        body { background:#222; color:white; text-align:center; font-family:'Lucida Calligraphy', cursive; margin:0; padding:0; }
+        h1 { font-size:2.5em; color:#f0e68c; margin:20px 0; }
+        #boardContainer { display:inline-block; padding:10px; border-radius:10px; background:#333; margin:20px auto; width:600px; max-width:95%; border:4px solid yellow; }
+        #board { width:100%; }
+        #game { display:none; }
+        button { padding:10px 20px; margin:5px; background:#4CAF50; border:none; color:white; cursor:pointer; font-size:1em; }
+        button:hover { background:#45a049; }
+        input { padding:8px; font-size:1em; }
+        #winCard { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#111; color:yellow; border:3px solid gold; padding:30px; display:none; z-index:1000; text-align:center; font-size:1.5em; font-family:'Lucida Calligraphy', cursive; }
+        #winCard button { margin-top:15px; background:gold; color:black; font-weight:bold; font-size:1em; cursor:pointer; }
+        footer { margin-top:20px; color:#aaa; font-size:14px; }
+        #timers, #turnInfo { font-size:1.2em; margin:10px 0; font-family:Arial, sans-serif; }
+        #roomText { font-family:Arial, sans-serif; color:#f0e68c; font-weight:bold; }
+        #playerInfo { display:flex; justify-content:space-between; width:600px; max-width:95%; margin:10px auto; font-weight:bold; }
+        #whitePlayer, #blackPlayer { padding:5px 10px; border-radius:5px; background:rgba(255,255,255,0.1); color:white; position:relative; }
+        .playerComment { display:inline-block; margin-left:10px; color:#ffd700; font-weight:bold; opacity:0; transition:opacity 0.5s ease, transform 2s ease; position:relative; }
+        .highlight-yellow { box-shadow:0 0 10px 5px yellow inset; transition:box-shadow 0.3s ease; }
+        .highlight-red { box-shadow:0 0 10px 5px red inset; transition:box-shadow 0.3s ease; }
+        @media(max-width:600px){ #boardContainer,#playerInfo{width:95%;} button,input{font-size:0.9em;} }
+        #quickComments { margin:10px auto; }
+        .commentBtn { background:#f0e68c; color:#111; border:none; padding:5px 10px; margin:3px; cursor:pointer; border-radius:5px; font-weight:bold; }
+        .commentBtn:hover { background:#ffd700; }
+    </style>
+</head>
+
+<body>
+<h1>Online Chess</h1>
+
+<div id="lobby">
+    <input id="playerName" placeholder="Enter your name"><br><br>
+    <button onclick="createGame()">Create Game</button><br><br>
+    <input id="roomInput" placeholder="Room Code">
+    <button onclick="joinGame()">Join Game</button>
+</div>
+
+<div id="game">
+    <h3 id="roomText"></h3>
+    <h3 id="status">Waiting...</h3>
+    <div id="turnInfo">Turn: </div>
+    <div id="timers">White: <span id="whiteTimer">05:00</span> | Black: <span id="blackTimer">05:00</span></div>
+
+    <div id="playerInfo">
+        <div id="whitePlayer">White: <span id="whiteComment" class="playerComment"></span></div>
+        <div id="blackPlayer">Black: <span id="blackComment" class="playerComment"></span></div>
+    </div>
+
+    <div id="boardContainer"><div id="board"></div></div>
+
+    <div id="quickComments">
+        <button class="commentBtn" onclick="sendComment('Good move!')">Good move!</button>
+        <button class="commentBtn" onclick="sendComment('Nice try!')">Nice try!</button>
+        <button class="commentBtn" onclick="sendComment('Wow!')">Wow!</button>
+    </div>
+</div>
+
+<div id="winCard">
+    <h2 id="winnerText"></h2>
+    <button onclick="closeWinCard()">Close</button>
+</div>
+
+<audio id="moveSound" src="assets/move.mp3"></audio>
+<audio id="winSound" src="assets/cheer.mp3"></audio>
+<audio id="checkSound" src="assets/beep.mp3"></audio>
+<audio id="hitSound" src="assets/hit.mp3"></audio>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="lib/chess.js"></script>
+<script src="lib/chessboard.js"></script>
+<script src="app.js"></script>
+
+<footer>Developed by: Soumyajit Seal | &copy; 2026</footer>
+</body>
+</html>
